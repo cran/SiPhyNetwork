@@ -1,6 +1,6 @@
 Package: SiPhyNetwork
 Title: A Phylogenetic Simulator for Reticulate Evolution
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     c(person("Joshua", "Justison", email = "justisnojo@gmail.com", role = c("aut", "cre","cph")),
     		person(c("Claudia","Solis-Lemus"), role=c("aut","cph")),
@@ -18,7 +18,7 @@ Imports: stats, ape, Rcpp, rstackdeque
 VignetteBuilder: knitr
 LinkingTo: Rcpp,
 NeedsCompilation: yes
-Packaged: 2022-09-19 17:55:08 UTC; justison
+Packaged: 2022-09-27 03:49:22 UTC; justison
 Author: Joshua Justison [aut, cre, cph],
   Claudia Solis-Lemus [aut, cph],
   Tracy A. Heath [aut, cph],
@@ -30,4 +30,4 @@ Author: Joshua Justison [aut, cre, cph],
     'read.net.R'. Crediting original copyright holder)
 Maintainer: Joshua Justison <justisnojo@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-09-20 09:16:19 UTC
+Date/Publication: 2022-09-29 10:50:09 UTC

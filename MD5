@@ -1,6 +1,6 @@
-446fc23e699ed6c72a5f7f0a3d840b5b *DESCRIPTION
+90bdcfbdfe94ab2571e3939470e0cd6f *DESCRIPTION
 f1f6ba54e2d6d3f08524ca2bbd299d45 *NAMESPACE
-a7434b6d3688c2e2f7d0bb17c756b2c1 *NEWS.md
+58965dbff280e141863d3d3879c80313 *NEWS.md
 383f4932e486f2ae0ec4a310981f68ca *R/NetworkSim.R
 b1f0969acd5bfb63498c862fa9348b9e *R/RcppExports.R
 4efed2b4c3a115ae42a31f0829daa7fb *R/SiPhyNetwork-package.R
@@ -45,7 +45,7 @@ dce8519348cd8622a7d463ae17af2f48 *man/reconstructedNetwork.Rd
 476e190e5649a3f47189ef5e08647d30 *man/sim.bdh.taxa.ssa.Rd
 d386be98f3a22c8bea06fe762c36ddd7 *man/write.net.Rd
 b57d2eb34d6e48bf0a8221654f7912e4 *src/RcppExports.cpp
-ce8abeeef2cc14e56aa64a251bdd4c0f *src/code.cpp
+4198187480a72b689302188ba912a8f4 *src/code.cpp
 a9fbcfb92ce044cb4d0067f2cf48d821 *tests/testthat.R
 4f4b0a8bc9c5f0e8a08b4ff342ece887 *tests/testthat/test-write.R
 3276ba4cf0a94a55e89c2ff81a1a6520 *vignettes/figures/hybridization_types.png
