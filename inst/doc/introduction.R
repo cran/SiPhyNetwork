@@ -162,7 +162,7 @@ par(old_pars)
 
 initial_val<-2 ## The root starts off at 2N
 
-###function for what happens at hybridization even
+###function for what happens at hybridization event
 hyb_e_fxn <- function(parent_states,inheritance){
   ##For allopolyploidy we add the ploidy of both parents
   return(sum(parent_states)) 
@@ -192,6 +192,125 @@ t_fxn <- function(trait_states,timestep){
 s_fxn <-function(tip_state){
   ##Ploidy doesn't change at speciation events. 
   ##Both daughter lineages have the same ploidy as the parent
+  return(c(tip_state,tip_state))
+}
+
+trait_model<-make.trait.model(initial_states = initial_val,
+                              hyb.event.fxn = hyb_e_fxn,
+                              hyb.compatibility.fxn = hyb_c_fxn,
+                              time.fxn = t_fxn,
+                              spec.fxn = s_fxn)
+
+
+trait_nets <-sim.bdh.age(age=2,numbsim=10,
+                    lambda=1,mu=0.2,
+                    nu=0.25, hybprops = hybrid_proportions,
+                    hyb.inher.fxn = inheritance.fxn,
+                    trait.model = trait_model)
+
+
+## -----------------------------------------------------------------------------
+initial_val<-0 ## The root starts off at 0
+
+###function for what happens at hybridization event
+hyb_e_fxn <- function(parent_states,inheritance){
+  ## Take a weighted average of the two traits
+  return(sum(parent_states*c(inheritance,1-inheritance))) 
+}
+
+##Function for determining whether hybridization occurs
+hyb_c_fxn <-function(parent_states,hybrid_state){
+  #Make linear decay function that decreases hybrid success probability linearly
+  #Hybridization cannot occur when the traits differ by more than 4
+  decay.fxn <- make.linear.decay(4)
+  
+  #Trait dissimilarity
+  diss<-abs(parent_states[1]-parent_states[2])
+  
+  success_prob<-decay.fxn(diss) 
+  return(runif(1,0,1)<=success_prob)
+}
+
+
+##Function for how the trait changes over time
+t_fxn <- function(trait_states,timestep){
+  ##We assume brownian motion on the continuous trait
+  sigma<- 2 ##sqrt(Rate of evolution)
+  
+  ##Make brownian motion draws for each lineage
+  delta_x <- rnorm(length(trait_states),mean=0,sd=sigma*sqrt(timestep))
+  
+  return(delta_x+trait_states)
+}
+
+##Function for how the trait changes at speciation events
+s_fxn <-function(tip_state){
+  ##No change at speciation
+  return(c(tip_state,tip_state))
+}
+
+trait_model<-make.trait.model(initial_states = initial_val,
+                              hyb.event.fxn = hyb_e_fxn,
+                              hyb.compatibility.fxn = hyb_c_fxn,
+                              time.fxn = t_fxn,
+                              spec.fxn = s_fxn)
+
+
+trait_nets <-sim.bdh.age(age=2,numbsim=10,
+                    lambda=1,mu=0.2,
+                    nu=0.25, hybprops = hybrid_proportions,
+                    hyb.inher.fxn = inheritance.fxn,
+                    trait.model = trait_model)
+
+
+## -----------------------------------------------------------------------------
+initial_val<-0 ## The root starts off at 0
+
+###function for what happens at hybridization event
+hyb_e_fxn <- function(parent_states,inheritance){
+  ## Take a weighted average of the two traits
+  hyb_val<-sum(parent_states*c(inheritance,1-inheritance))
+  
+  ##Now allow transgressive evolution by making a random draw from a normal distribution
+  transgression <- rnorm(1,0,4)
+  
+  return(hyb_val+transgression) 
+}
+
+##Function for determining whether hybridization occurs
+hyb_c_fxn <-function(parent_states,hybrid_state){
+  ##Lets say that anything outside 10% of the hybrid lineage trait value is a different nich
+  niche_bound <-hybrid_state*0.1
+  
+  lower_bound <-hybrid_state-niche_bound
+  upper_bound <-hybrid_state+niche_bound
+  
+  ##Check if the parental lienages are within the niche boundary
+  if(all( (parent_states < lower_bound) | (parent_states > upper_bound) )){
+    ##Parent lineages are outside the hybrid niche. Hybrid survives
+    return(TRUE)
+  }else{
+    ##Parent lineage inside the hybrid niche. Hybrid breakdown
+    return(FALSE)
+  }
+  
+}
+
+
+##Function for how the trait changes over time
+t_fxn <- function(trait_states,timestep){
+  ##We assume brownian motion on the continuous trait
+  sigma<- 2 ##sqrt(Rate of evolution)
+  
+  ##Make brownian motion draws for each lineage
+  delta_x <- rnorm(length(trait_states),mean=0,sd=sigma*sqrt(timestep))
+  
+  return(delta_x+trait_states)
+}
+
+##Function for how the trait changes at speciation events
+s_fxn <-function(tip_state){
+  ##No change at speciation
   return(c(tip_state,tip_state))
 }
 
